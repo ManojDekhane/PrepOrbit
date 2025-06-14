@@ -1,0 +1,89 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import LandingPage from './pages/LandingPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from "./pages/RegisterPage";
+import DashboardPage from './pages/DashboardPage';
+import PrivateRoute from "./components/PrivateRoute";
+import ExamPage from './pages/ExamPage';
+import MyAttemptsPage from './pages/MyAttemptsPage';
+import ResultSummaryPage from './pages/ResultSummaryPage';
+import AdminQuestionUpload from './pages/AdminQuestionUpload';
+import PaperListPage from './pages/PaperListPage';
+import ExamYearListPage from './pages/ExamYearListPage';
+
+function App() {
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+
+          <Route
+            path='/dashboard'
+            element={
+              <PrivateRoute>
+                <DashboardPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/exam/:exam"
+            element={
+              <PrivateRoute>
+                <ExamYearListPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/exam/:exam/:year"
+            element={
+              <PrivateRoute>
+                <PaperListPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/exam/:exam/:year/:paperCode"
+            element={
+              <PrivateRoute>
+                <ExamPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/my-attempts'
+            element={
+              <PrivateRoute>
+                <MyAttemptsPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/results/:exam/:year"
+            element={
+              <PrivateRoute>
+                <ResultSummaryPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path='/admin/upload'
+            element={
+              <PrivateRoute>
+                <AdminQuestionUpload />
+              </PrivateRoute>
+            }
+          />
+
+        </Routes>
+      </BrowserRouter>
+    </>
+  )
+}
+
+export default App;
