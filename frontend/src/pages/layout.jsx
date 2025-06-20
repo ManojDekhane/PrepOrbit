@@ -1,5 +1,5 @@
 // Layout.jsx
-import Header from "../components/header.jsx"; // adjust path
+import Header from "../components/header.jsx"; 
 import { Outlet } from "react-router-dom";
 
 const Layout = () => {
@@ -7,7 +7,7 @@ const Layout = () => {
     <>
       <Header />
       <main className="p-6">
-        <Outlet /> {/* This renders the page-specific content */}
+        <Outlet /> 
       </main>
     </>
   );
