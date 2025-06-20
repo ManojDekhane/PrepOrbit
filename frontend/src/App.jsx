@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from "./pages/RegisterPage";
@@ -10,27 +10,31 @@ import ResultSummaryPage from './pages/ResultSummaryPage';
 import AdminQuestionUpload from './pages/AdminQuestionUpload';
 import PaperListPage from './pages/PaperListPage';
 import ExamYearListPage from './pages/ExamYearListPage';
+import Layout from "./pages/layout.jsx"; // note: case-sensitive
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          {/* All children below will share the Header from Layout */}
 
+          {/* Public Pages */}
+          <Route index element={<LandingPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+
+          {/* Protected Routes */}
           <Route
-            path='/dashboard'
+            path="dashboard"
             element={
               <PrivateRoute>
                 <DashboardPage />
               </PrivateRoute>
             }
           />
-
           <Route
-            path="/exam/:exam"
+            path="exam/:exam"
             element={
               <PrivateRoute>
                 <ExamYearListPage />
@@ -38,7 +42,7 @@ function App() {
             }
           />
           <Route
-            path="/exam/:exam/:year"
+            path="exam/:exam/:year"
             element={
               <PrivateRoute>
                 <PaperListPage />
@@ -46,7 +50,7 @@ function App() {
             }
           />
           <Route
-            path="/exam/:exam/:year/:paperCode"
+            path="exam/:exam/:year/:paperCode"
             element={
               <PrivateRoute>
                 <ExamPage />
@@ -54,36 +58,33 @@ function App() {
             }
           />
           <Route
-            path='/my-attempts'
+            path="my-attempts"
             element={
               <PrivateRoute>
                 <MyAttemptsPage />
               </PrivateRoute>
             }
           />
-
           <Route
-            path="/results/:exam/:year"
+            path="results/:exam/:year"
             element={
               <PrivateRoute>
                 <ResultSummaryPage />
               </PrivateRoute>
             }
           />
-
           <Route
-            path='/admin/upload'
+            path="admin/upload"
             element={
               <PrivateRoute>
                 <AdminQuestionUpload />
               </PrivateRoute>
             }
           />
-
-        </Routes>
-      </BrowserRouter>
-    </>
-  )
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
