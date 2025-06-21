@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import API from "../utils/axios";
 
 function ExamPage() {
@@ -11,7 +10,7 @@ function ExamPage() {
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-    const [timeLeft, setTimeLeft] = useState(3 * 60 * 60);
+    const [timeLeft, setTimeLeft] = useState(3 * 60 * 60); // 3 hours
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -36,8 +35,7 @@ function ExamPage() {
     };
 
     useEffect(() => {
-        if (authLoading) return;
-        if (!user) return;
+        if (authLoading || !user) return;
 
         const fetchQuestions = async () => {
             try {
@@ -49,23 +47,23 @@ function ExamPage() {
             } finally {
                 setLoading(false);
             }
-        }
+        };
 
         fetchQuestions();
-    }, [authLoading, exam, year]);
+    }, [authLoading, user, exam, year, paperCode]);
 
     const handleOptionChange = (questionId, option) => {
-        setSelectedAnswers(prev => ({
+        setSelectedAnswers((prev) => ({
             ...prev,
-            [questionId]: option
-        }))
+            [questionId]: option,
+        }));
     };
 
     const handleSubmit = async () => {
         let correct = 0;
         const answers = [];
 
-        questions.forEach(q => {
+        questions.forEach((q) => {
             const selected = selectedAnswers[q._id] || "";
             const isCorrect = selected === q.correctAnswer;
             if (isCorrect) correct++;
@@ -73,7 +71,7 @@ function ExamPage() {
             answers.push({
                 questionId: q._id,
                 selectedAnswer: selected,
-                correctAnswer: q.correctAnswer
+                correctAnswer: q.correctAnswer,
             });
         });
 
@@ -103,50 +101,56 @@ function ExamPage() {
         }
     };
 
-
-    if (authLoading || loading) return <div>Loading questions...</div>;
-    if (!user) return <div>Please login to attempt papers.</div>;
+    if (authLoading || loading) return <div className="p-6 text-center text-gray-600">⏳ Loading questions...</div>;
+    if (!user) return <div className="p-6 text-center text-red-600 font-medium">⚠️ Please login to attempt papers.</div>;
 
     return (
-        <div className="p-6">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">
-                    {exam.toUpperCase()} {year} {paperCode && `- ${paperCode.toUpperCase()}`}
+        <div className="p-6 max-w-4xl mx-auto bg-slate-50 min-h-screen">
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-2 sm:mb-0">
+                    {exam.toUpperCase()} {year} {paperCode && `– ${paperCode.toUpperCase()}`}
                 </h2>
-                <span className="font-mono text-lg bg-yellow-100 px-3 py-1 rounded">
+                <span className="font-mono text-lg bg-yellow-100 text-yellow-800 px-4 py-1 rounded shadow">
                     ⏱️ {formatTime()}
                 </span>
             </div>
 
-            {questions.map((q, idx) => (
-                <div key={q._id} className="mb-6 border-b pb-4">
-                    <p className="font-medium">
-                        {idx + 1}. {q.questionText}
-                    </p>
-                    <div className="ml-4 mt-2 space-y-1">
-                        {q.options.map((opt) => (
-                            <label key={opt} className="block">
-                                <input
-                                    type="radio"
-                                    name={`question-${q._id}`}
-                                    value={opt}
-                                    checked={selectedAnswers[q._id] === opt}
-                                    onChange={() => handleOptionChange(q._id, opt)}
-                                    className="mr-2"
-                                />
-                                {opt}
-                            </label>
-                        ))}
+            <div className="space-y-6">
+                {questions.map((q, idx) => (
+                    <div key={q._id} className="bg-white border border-gray-200 rounded shadow-sm p-4">
+                        <p className="font-semibold text-gray-800 mb-2">
+                            {idx + 1}. {q.questionText}
+                        </p>
+                        <div className="space-y-2 ml-2">
+                            {q.options.map((opt) => (
+                                <label
+                                    key={opt}
+                                    className="flex items-center cursor-pointer hover:bg-gray-50 p-2 rounded transition"
+                                >
+                                    <input
+                                        type="radio"
+                                        name={`question-${q._id}`}
+                                        value={opt}
+                                        checked={selectedAnswers[q._id] === opt}
+                                        onChange={() => handleOptionChange(q._id, opt)}
+                                        className="mr-3 accent-blue-600"
+                                    />
+                                    <span className="text-gray-700">{opt}</span>
+                                </label>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
 
-            <button
-                onClick={handleSubmit}
-                className="bg-blue-600 text-white px-4 py-2 rounded"
-            >
-                Submit
-            </button>
+            <div className="mt-8 text-center">
+                <button
+                    onClick={handleSubmit}
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow transition"
+                >
+                    🚀 Submit Paper
+                </button>
+            </div>
         </div>
     );
 }
