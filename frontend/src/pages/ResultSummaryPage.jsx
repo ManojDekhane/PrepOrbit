@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 function ResultSummaryPage() {
     const location = useLocation();
     const navigate = useNavigate();
-    const { score, totalQuestions, answers, exam, year } = location.state || {};
+    const { score, totalQuestions, answers, exam, year, paperCode } = location.state || {};
 
     if (!location.state) {
         return (
@@ -62,7 +62,7 @@ function ResultSummaryPage() {
 
             <div className="mt-8 flex flex-wrap gap-4 justify-center">
                 <button
-                    onClick={() => navigate(`/${exam}/${year}`)}
+                    onClick={() => navigate(`/exam/${exam}/${year}/${paperCode}`)}
                     className="bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-5 py-2 rounded shadow"
                 >
                     🔁 Retake Exam

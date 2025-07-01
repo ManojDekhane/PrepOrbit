@@ -93,6 +93,7 @@ function ExamPage() {
                     answers,
                     exam,
                     year,
+                    paperCode
                 },
             });
         } catch (err) {
