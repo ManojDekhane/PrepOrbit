@@ -1,15 +1,21 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import PrepOrbitImage from "../assets/PrepOrbit.png";
+import axios from "axios";
 
 const Header = () => {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
- 
 
-  
-
-  
+  const handleLogout = async () => {
+    try {
+      await axios.post("/api/auth/logout", {}, { withCredentials: true });
+      setUser(null);
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  }
 
   return (
     <header className="flex justify-between items-center px-6 py-4 bg-white shadow-md sticky top-0 z-50">
@@ -28,10 +34,8 @@ const Header = () => {
           </>
         ) : user ? (
           <button
-            onClick={() => {
-            setUser(null);
-    setTimeout(() => navigate("/"), 0); 
-  }}         className="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition shadow"
+            onClick={handleLogout} 
+            className="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition shadow"
           >
             Logout
           </button>
