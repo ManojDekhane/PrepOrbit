@@ -2,6 +2,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import PrepOrbitImage from "../assets/PrepOrbit.png";
 import axios from "axios";
+import API from "../utils/axios";
 
 const Header = () => {
   const { user, setUser } = useAuth();
@@ -9,7 +10,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("/api/auth/logout", {}, { withCredentials: true });
+      await API.post("/auth/logout");
       setUser(null);
       navigate("/");
     } catch (err) {
