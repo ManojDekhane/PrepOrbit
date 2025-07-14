@@ -1,6 +1,5 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import API from "../utils/axios";
 
 function ExamYearListPage() {
@@ -23,23 +22,31 @@ function ExamYearListPage() {
         };
 
         fetchYears();
-    }, [exam])
+    }, [exam]);
 
     const handleYearClick = (year) => {
         navigate(`/exam/${exam}/${year}`);
+    };
+
+    if (loading) {
+        return (
+            <div className="p-6 text-center text-gray-600">
+                ⏳ Loading years...
+            </div>
+        );
     }
 
-    if (loading) return <div className="p-6">Loading years...</div>;
-
     return (
-        <div className="p-6">
-            <h2 className="text-xl font-bold mb-4">{exam.toUpperCase()} - Select Year</h2>
-            <div className="grid grid-cols-2 gap-4">
+        <div className="p-6 max-w-3xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                {exam.toUpperCase()} - Select Year
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 {years.map((year) => (
                     <button
                         key={year}
                         onClick={() => handleYearClick(year)}
-                        className="bg-blue-100 hover:bg-blue-200 px-4 py-2 rounded"
+                        className="bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium px-4 py-3 rounded-lg shadow transition"
                     >
                         {year}
                     </button>

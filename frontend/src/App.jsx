@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from "./pages/RegisterPage";
@@ -10,25 +10,28 @@ import ResultSummaryPage from './pages/ResultSummaryPage';
 import AdminQuestionUpload from './pages/AdminQuestionUpload';
 import PaperListPage from './pages/PaperListPage';
 import ExamYearListPage from './pages/ExamYearListPage';
+import Layout from "./pages/layout";
+import LeaderboardPage from './pages/LeaderBoardPage';
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+
+          <Route index element={<LandingPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+
 
           <Route
-            path='/dashboard'
+            path="/dashboard"
             element={
               <PrivateRoute>
                 <DashboardPage />
               </PrivateRoute>
             }
           />
-
           <Route
             path="/exam/:exam"
             element={
@@ -54,14 +57,13 @@ function App() {
             }
           />
           <Route
-            path='/my-attempts'
+            path="/my-attempts"
             element={
               <PrivateRoute>
                 <MyAttemptsPage />
               </PrivateRoute>
             }
           />
-
           <Route
             path="/results/:exam/:year"
             element={
@@ -70,20 +72,26 @@ function App() {
               </PrivateRoute>
             }
           />
-
           <Route
-            path='/admin/upload'
+            path="/admin/upload"
             element={
               <PrivateRoute>
                 <AdminQuestionUpload />
               </PrivateRoute>
             }
           />
-
-        </Routes>
-      </BrowserRouter>
-    </>
-  )
+          <Route
+            path='/leaderboard'
+            element={
+              <PrivateRoute>
+                <LeaderboardPage />
+              </PrivateRoute>
+            }
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;

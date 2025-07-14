@@ -53,13 +53,13 @@ router.post("/login", async (req, res) => {
         const token = jwt.sign(
             {userId: user._id, isAdmin: user.isAdmin},
             process.env.JWT_SECRET,
-            {expiresIn: "1h"}
+            {expiresIn: "1d"}
         );
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            secure: true,
+            sameSite: "None",
             maxAge: 3600000,
         });
 
@@ -78,7 +78,11 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+        httpOnly: true,
+        sameSite: "None",
+        secure: true
+    });
     res.json({ msg: "Logged out successfully" });
 })
 
