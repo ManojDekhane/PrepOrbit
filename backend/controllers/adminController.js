@@ -18,6 +18,7 @@ const uploadQuestions = async (req, res) => {
 
         const formattedQuestions = questions.map((q, idx) => ({
             questionText: q.questionText,
+            imageUrl: q.imageUrl,
             options: q.options,
             correctAnswer: q.correctAnswer,
             subject: q.subject || "",

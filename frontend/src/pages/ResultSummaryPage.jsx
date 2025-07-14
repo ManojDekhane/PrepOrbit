@@ -1,4 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import API from "../utils/axios";
 
 function ResultSummaryPage() {
     const location = useLocation();
@@ -11,6 +13,36 @@ function ResultSummaryPage() {
                 ⚠️ No result data found. Please complete a paper first.
             </div>
         );
+    }
+
+    const [explanations, setExplanations] = useState(Array(answers.length).fill(""));
+    const [loadingStates, setLoadingStates] = useState(Array(answers.length).fill(false));
+
+    const generateExplanation = async (index, question) => {
+        try {
+            const updatedLoading = [...loadingStates];
+            updatedLoading[index] = true;
+            setLoadingStates(updatedLoading);
+
+            const res = await API.post("/groq/generate-explanation", {
+                questionText: question.questionText,
+                options: question.options,
+                correctAnswer: question.correctAnswer,
+            });
+
+            const updatedExplanations = [...explanations];
+            updatedExplanations[index] = res.data.explanation;
+            setExplanations(updatedExplanations);
+        } catch (err) {
+            console.error("Failed to generate explanation", err);
+            const updatedExplanations = [...explanations];
+            updatedExplanations[index] = "Failed to generate explanation.";
+            setExplanations(updatedExplanations);
+        } finally {
+            const updatedLoading = [...loadingStates];
+            updatedLoading[index] = false;
+            setLoadingStates(updatedLoading);
+        }
     }
 
     return (
@@ -29,11 +61,8 @@ function ResultSummaryPage() {
                 {answers.map((ans, index) => (
                     <div
                         key={index}
-                        className={`border-l-4 ${
-                            ans.selectedAnswer === ans.correctAnswer
-                                ? "border-green-500"
-                                : "border-red-500"
-                        } bg-gray-50 p-4 rounded-md shadow-sm`}
+                        className={`border-l-4 ${ans.selectedAnswer === ans.correctAnswer ? "border-green-500" : "border-red-500"
+                            } bg-gray-50 p-4 rounded-md shadow-sm`}
                     >
                         <p className="font-medium text-gray-800 mb-1">
                             Q{index + 1}: {ans.questionText || ""}
@@ -41,21 +70,30 @@ function ResultSummaryPage() {
                         <p className="text-gray-600">
                             Your Answer:
                             <span
-                                className={`ml-2 font-semibold ${
-                                    ans.selectedAnswer === ans.correctAnswer
-                                        ? "text-green-600"
-                                        : "text-red-600"
-                                }`}
+                                className={`ml-2 font-semibold ${ans.selectedAnswer === ans.correctAnswer ? "text-green-600" : "text-red-600"
+                                    }`}
                             >
                                 {ans.selectedAnswer || "No Answer"}
                             </span>
                         </p>
                         <p className="text-gray-600">
                             Correct Answer:{" "}
-                            <span className="text-blue-600 font-semibold">
-                                {ans.correctAnswer}
-                            </span>
+                            <span className="text-blue-600 font-semibold">{ans.correctAnswer}</span>
                         </p>
+
+                        <button
+                            onClick={() => generateExplanation(index, ans)}
+                            disabled={loadingStates[index]}
+                            className="mt-3 text-sm text-blue-700 hover:underline disabled:opacity-50"
+                        >
+                            {loadingStates[index] ? "Generating..." : "💡 Generate AI Explanation"}
+                        </button>
+
+                        {explanations[index] && (
+                            <div className="mt-2 text-sm bg-white p-3 rounded border text-gray-700 whitespace-pre-wrap">
+                                {explanations[index]}
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

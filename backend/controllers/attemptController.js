@@ -1,4 +1,5 @@
 const Attempt = require("../models/Attempt");
+const User = require("../models/User");
 
 const saveAttempt = async (req, res) => {
     const userId = req.user.userId;
@@ -19,7 +20,16 @@ const saveAttempt = async (req, res) => {
         });
 
         await attempt.save();
-        res.status(201).json({ msg: "Attempt saved", attempt });
+
+        const accuracy = score / totalQuestions;
+        const attemptWeight = 1 + Math.log(totalQuestions); // log-scaled reward for long papers
+        const pointsEarned = Math.round(accuracy * 100 * attemptWeight);
+
+        await User.findByIdAndUpdate(userId, {
+            $inc: { [`points.${exam}`]: pointsEarned }
+        });
+
+        res.status(201).json({ msg: "Attempt saved", attempt, pointsEarned });
     } catch (err) {
         console.error("Error saving attempt:", err.message);
         res.status(500).json({ msg: "Server error saving attempt" });

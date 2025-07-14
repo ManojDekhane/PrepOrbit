@@ -7,7 +7,7 @@ function AdminQuestionUpload() {
     const [year, setYear] = useState("");
     const [paperCode, setPaperCode] = useState("paper1");
     const [questions, setQuestions] = useState([
-        { questionText: "", options: ["", "", "", ""], correctAnswer: "", subject: "", index: 1 }
+        { questionText: "", options: ["", "", "", ""], correctAnswer: "", subject: "", index: 1, imageUrl: "" }
     ]);
 
     const handleAddQuestion = () => {
@@ -125,6 +125,36 @@ function AdminQuestionUpload() {
                             className="w-full mb-2"
                             required
                         />
+                        <input 
+                        type="file" 
+                        accept="image/*"
+                        onChange={async (e) => {
+                            const file = e.target.files[0];
+                            if (!file) return;
+
+                            const formData = new FormData();
+                            formData.append("image", file);
+
+                            try {
+                                const res = await API.post("/upload/image", formData, {
+                                    headers: { "Content-Type": "multipart/form-data" }
+                                });
+
+                                const updated = [...questions];
+                                updated[idx].imageUrl = res.data.imageUrl;
+                                setQuestions(updated);
+                                alert("Image uploded successfully!");
+                            } catch (err) {
+                                console.error("Image upload failed", err);
+                                alert("Failed to upload image.");
+                            }
+                        }}
+                        className="mb-2"
+                        />
+                        {q.imageUrl && (
+                            <img src={q.imageUrl} alt={`diagram-${idx+1}`} className="w-40 mb-2 border" />
+                        )}
+
                         {q.options.map((opt, i) => (
                             <input
                                 key={i}

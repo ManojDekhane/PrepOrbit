@@ -70,8 +70,10 @@ function ExamPage() {
 
             answers.push({
                 questionId: q._id,
-                selectedAnswer: selected,
-                correctAnswer: q.correctAnswer,
+            questionText: q.questionText,
+            options: q.options, 
+            selectedAnswer: selected,
+            correctAnswer: q.correctAnswer,
             });
         });
 
@@ -122,6 +124,11 @@ function ExamPage() {
                         <p className="font-semibold text-gray-800 mb-2">
                             {idx + 1}. {q.questionText}
                         </p>
+
+                        {q.imageUrl && (
+                            <img src={q.imageUrl} alt={`Question ${idx + 1}`} className="max-w-full h-auto my-3 rounded shadow" />
+                        )}
+
                         <div className="space-y-2 ml-2">
                             {q.options.map((opt) => (
                                 <label
