@@ -12,6 +12,7 @@ import PaperListPage from './pages/PaperListPage';
 import ExamYearListPage from './pages/ExamYearListPage';
 import Layout from "./pages/layout";
 import LeaderboardPage from './pages/LeaderBoardPage';
+import PrepBotChat from './components/PrepBotChat';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route index element={<LandingPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
+          <Route path="/prepbot" element={<PrepBotChat />} />
 
 
           <Route
