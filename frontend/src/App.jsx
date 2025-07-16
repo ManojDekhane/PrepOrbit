@@ -13,7 +13,7 @@ import ExamYearListPage from './pages/ExamYearListPage';
 import Layout from "./pages/layout";
 import LeaderboardPage from './pages/LeaderBoardPage';
 import PrepBotChat from './components/PrepBotChat';
-
+import Chatbot from "../src/components/chatbot";
 function App() {
   return (
     <BrowserRouter>
@@ -92,6 +92,7 @@ function App() {
           />
         </Route>
       </Routes>
+     <Chatbot/>
     </BrowserRouter>
   );
 }
