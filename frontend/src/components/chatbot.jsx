@@ -17,7 +17,7 @@ export default function FloatingChatButton() {
       <img
         src={robot}
         alt="Chatbot"
-        className="w-25 h-25 animate-bounce "
+        className="w-30 h-30 animate-bounce "
       />
     </Link>
   );
