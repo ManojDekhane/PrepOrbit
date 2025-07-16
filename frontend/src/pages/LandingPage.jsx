@@ -73,12 +73,7 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-slate-200 text-center py-6 mt-12">
-        <p className="text-gray-600 text-sm">
-          © {new Date().getFullYear()} <span className="font-semibold">PrepOrbit</span>. All rights reserved.
-        </p>
-      </footer>
+
     </div>
   );
 }
