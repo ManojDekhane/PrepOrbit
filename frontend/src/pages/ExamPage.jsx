@@ -98,16 +98,17 @@ function ExamPage() {
 
         try {
             await API.post("/attempts/save", attemptData);
-            navigate(`/results/${exam}/${year}`, {
-                state: {
-                    score: correct,
-                    totalQuestions: questions.length,
-                    answers,
-                    exam,
-                    year,
-                    paperCode
-                },
-            });
+          navigate("/feedback", {
+  state: {
+    score: correct,
+    totalQuestions: questions.length,
+    answers,
+    exam,
+    year,
+    paperCode
+  },
+});
+
         } catch (err) {
             console.error("Save attempt failed", err);
             alert("Error saving attempt.");

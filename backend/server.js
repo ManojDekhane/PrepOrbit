@@ -13,8 +13,7 @@ const leaderBoardRoutes = require("./routes/leaderboard");
 const geminiRoutes = require("./routes/geminiRoute");
 const groqLlamaRoute = require("./routes/groqLlamaRoute");
 const groqChatBotRoute = require("./routes/groqChatBotRoute");
-
-
+const feedbackRoute = require("./routes/feedbackroute");
 dotenv.config();
 
 const app = express();
@@ -57,6 +56,9 @@ app.use("/api/gemini", geminiRoutes);
 app.use("/api/groq", groqLlamaRoute);
 
 app.use("/api/groqChatBot", groqChatBotRoute);
+
+
+app.use("/api/feedback", feedbackRoute);
 
 const PORT = process.env.PORT || 5000;
 

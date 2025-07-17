@@ -1,4 +1,4 @@
-
+import { matchPath } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import robot from "../assets/robot.png";
 
@@ -7,6 +7,9 @@ export default function FloatingChatButton() {
 
  
   if (location.pathname === "/prepbot") return null;
+  const match = matchPath("/exam/:exam/:year/:paperCode", location.pathname);
+
+if (match) return null;
 
   return (
     <Link

@@ -6,7 +6,7 @@ import neetimage from "../assets/examimage/neet.webp";
 import gateimage from "../assets/examimage/GATE.jpg";
 import CardItem from "../components/card"; 
 import "../index.css";
-
+import Review from "../components/review";
 function LandingPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -71,8 +71,9 @@ function LandingPage() {
             className="w-full max-w-md object-contain drop-shadow-xl"
           />
         </div>
+         
       </section>
-
+       <Review/>
 
     </div>
   );

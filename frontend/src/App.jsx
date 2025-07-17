@@ -14,6 +14,7 @@ import Layout from "./pages/layout";
 import LeaderboardPage from './pages/LeaderBoardPage';
 import PrepBotChat from './components/PrepBotChat';
 import Chatbot from "../src/components/chatbot";
+import FeedbackPage from './pages/feedback';
 function App() {
   return (
     <BrowserRouter>
@@ -87,6 +88,14 @@ function App() {
             element={
               <PrivateRoute>
                 <LeaderboardPage />
+              </PrivateRoute>
+            }
+          />
+           <Route
+            path='/feedback'
+            element={
+              <PrivateRoute>
+                <FeedbackPage />
               </PrivateRoute>
             }
           />
