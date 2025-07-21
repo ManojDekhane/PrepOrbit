@@ -13,7 +13,8 @@ import ExamYearListPage from './pages/ExamYearListPage';
 import Layout from "./pages/layout";
 import LeaderboardPage from './pages/LeaderBoardPage';
 import PrepBotChat from './components/PrepBotChat';
-
+import Chatbot from "../src/components/chatbot";
+import FeedbackPage from './pages/feedback';
 function App() {
   return (
     <BrowserRouter>
@@ -90,8 +91,17 @@ function App() {
               </PrivateRoute>
             }
           />
+           <Route
+            path='/feedback'
+            element={
+              <PrivateRoute>
+                <FeedbackPage />
+              </PrivateRoute>
+            }
+          />
         </Route>
       </Routes>
+     <Chatbot/>
     </BrowserRouter>
   );
 }

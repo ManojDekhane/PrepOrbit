@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import API from "../utils/axios";
+import CardItem from "../components/card";
+import paperimage from "../assets/year/paper.avif";
 
 function PaperListPage() {
   const { exam, year } = useParams();
@@ -30,16 +32,16 @@ function PaperListPage() {
 
   if (loading) {
     return (
-      <div className="p-6 text-center text-lg text-blue-600">
+      <div className="p-6 text-center text-lg text-blue-600 animate-pulse">
         ⏳ Loading papers...
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto bg-slate-50 min-h-screen">
-      <h2 className="text-3xl font-bold text-blue-800 mb-6 text-center">
-        {exam.toUpperCase()} {year} – Select a Paper
+    <div className="p-6 max-w-6xl mx-auto bg-slate-50 min-h-screen">
+      <h2 className="text-3xl font-bold text-blue-800 mb-8 text-center">
+        {exam.toUpperCase()} {year} – Choose a Paper
       </h2>
 
       {papers.length === 0 ? (
@@ -47,15 +49,14 @@ function PaperListPage() {
           No papers found for this exam/year.
         </p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {papers.map((p) => (
-            <button
-              key={p}
-              onClick={() => handlePaperClick(p)}
-              className="bg-white border border-green-300 text-green-700 px-4 py-3 rounded shadow hover:bg-green-100 hover:text-green-800 font-semibold transition"
-            >
-              {p.toUpperCase()}
-            </button>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          {papers.map((paperCode) => (
+            <CardItem
+              key={paperCode}
+              title={paperCode.toUpperCase()}            
+              imageSrc={paperimage}
+              onClick={() => handlePaperClick(paperCode)}
+            />
           ))}
         </div>
       )}
