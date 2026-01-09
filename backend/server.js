@@ -14,6 +14,7 @@ const geminiRoutes = require("./routes/geminiRoute");
 const groqLlamaRoute = require("./routes/groqLlamaRoute");
 const groqChatBotRoute = require("./routes/groqChatBotRoute");
 const feedbackRoute = require("./routes/feedbackroute");
+const codeRoutes = require("./routes/codeRoute");
 dotenv.config();
 
 const app = express();
@@ -56,6 +57,11 @@ app.use("/api/gemini", geminiRoutes);
 app.use("/api/groq", groqLlamaRoute);
 
 app.use("/api/groqChatBot", groqChatBotRoute);
+
+app.use("/api/code",codeRoutes);
+
+app.use("/api/problems", require("./routes/problemRoute"));
+
 
 
 app.use("/api/feedback", feedbackRoute);

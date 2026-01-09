@@ -15,6 +15,8 @@ import LeaderboardPage from './pages/LeaderBoardPage';
 import PrepBotChat from './components/PrepBotChat';
 import Chatbot from "../src/components/chatbot";
 import FeedbackPage from './pages/feedback';
+import CodeRunner from './pages/codeRunner';
+import ProblemList from './pages/ProblemList';
 function App() {
   return (
     <BrowserRouter>
@@ -91,6 +93,18 @@ function App() {
               </PrivateRoute>
             }
           />
+            <Route path="/problems" 
+            element={
+              
+                <ProblemList />
+              
+            } />
+           <Route path="/problems/:id" 
+           element={
+           
+              <CodeRunner />
+           
+           } />
            <Route
             path='/feedback'
             element={
