@@ -4,12 +4,12 @@ import API from "../utils/axios";
 import CardItem from "../components/card";
 
 
-import jee2020 from "../assets/year/jee-2020.jpg";
+import jee2022 from "../assets/year/jee-2020.jpg";
 import neet2022 from "../assets/year/neet-2022.webp";
 import gate2022 from "../assets/year/gate-2022.jpg";
 
 const imageMap = {
-  "jee-2020": jee2020,
+  "jee-2022": jee2022,
   "neet-2022": neet2022,
   "gate-2022": gate2022,
 };
